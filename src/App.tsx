@@ -15,10 +15,9 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomePage} />
         {goalTypes.map((goalType) => (
-          <Stack.Screen
-            name={`${goalType} Goals`}
-            component={(props) => <GoalsPage {...props} goalType={goalType} />}
-          />
+          <Stack.Screen name={`${goalType} Goals`}>
+            {(props) => <GoalsPage {...props} goalType={goalType} />}
+          </Stack.Screen>
         ))}
       </Stack.Navigator>
     </NavigationContainer>
