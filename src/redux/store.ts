@@ -1,8 +1,10 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import goalsSlice from "../features/goals/goalsSlice";
 import { apiSlice } from "./apiSlice";
 
 export const store = configureStore({
   reducer: {
+    goals: goalsSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleWare) =>

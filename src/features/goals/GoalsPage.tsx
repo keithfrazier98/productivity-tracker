@@ -1,10 +1,20 @@
 import { Dimensions, FlatList, Text, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import FullButton from "../../components/FullButton";
+import { useAppDispatch } from "../../redux/hooks";
 import { composeStyleSheet, classes, styles } from "../../styles";
 import { GoalTypes } from "../../types";
+import { editingGoals } from "./goalsSlice";
 
-export default function GoalsPage({ goalType }: { goalType: GoalTypes }) {
+export default function GoalsPage({
+  goalType,
+  navigation,
+}: {
+  goalType: GoalTypes;
+  navigation: any;
+}) {
+  const dispatch = useAppDispatch();
+
   return (
     <View style={styles("flexGrow-1")}>
       <View
@@ -60,9 +70,7 @@ export default function GoalsPage({ goalType }: { goalType: GoalTypes }) {
       <View
         style={styles("flexGrow-1 padding-20 display-flex flexDirection-col")}
       >
-        <Text style={styles("fontSize-32")}>
-          Your {goalType} Goals
-        </Text>
+        <Text style={styles("fontSize-32")}>Your {goalType} Goals</Text>
         <FlatList
           data={[
             { key: "Get up before 7:30" },
@@ -78,7 +86,13 @@ export default function GoalsPage({ goalType }: { goalType: GoalTypes }) {
             </Text>
           )}
         />
-        <FullButton text={"Edit Daily Goals"} onPress={() => {}} />
+        <FullButton
+          text={"Edit Daily Goals"}
+          onPress={() => {
+            dispatch(editingGoals({ goals: goalType }));
+            navigation.navigate("Edit Goals");
+          }}
+        />
         <FullButton text={"Log today's progress"} onPress={() => {}} />
       </View>
     </View>
