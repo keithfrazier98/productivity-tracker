@@ -1,6 +1,70 @@
 import { Pressable, StyleSheet, Text, View as RNView } from "react-native";
 
-export const styles = StyleSheet.create({
+const singles = {
+  flex: {
+    display: "flex",
+  },
+  justifyCenter: {
+    justifyContent: "center",
+  },
+  "flex-1": {
+    flexGrow: 1,
+  },
+  "flex-col": {
+    flexDirection: "column",
+  },
+  "flex-row": {
+    flexDirection: "row",
+  },
+};
+
+/**
+ * O(1) Lookup for variable styles.
+ *
+ * w-10 = width:10
+ * bg-#F2F2F2 = background: "#F2F2F2"
+ *
+ */
+const variableStyles = {
+  w: "width",
+  h: "height",
+  col: "column",
+  row: "row",
+};
+
+export function styles(...styles: string[]) {
+  return composeStyleSheet(styles.join(" "));
+}
+
+export function composeStyleSheet(styles: string) {
+  let allStyles = {};
+  styles.split(" ").forEach((styleString) => {
+    // hyphen indicates variable styles (flex vs flex-col)
+    if (styleString.includes("-")) {
+      const subtsyles = styleString.split("-");
+      // length of two indicates style hyphen value (e.g. w-10)
+      if (subtsyles.length === 2) {
+        let value = variableStyles[subtsyles[1]] || subtsyles[1];
+        if (Number(value)) {
+          value = Number(value);
+        }
+        const style = variableStyles[subtsyles[0]] || subtsyles[0];
+
+        allStyles = {
+          ...allStyles,
+          [style]: value,
+        };
+      }
+    } else {
+      allStyles = { ...allStyles, ...singles[styleString] };
+    }
+  });
+  const composedSheet = StyleSheet.create({ componentStyles: allStyles });
+  console.log(allStyles, composedSheet.componentStyles);
+  return composedSheet.componentStyles;
+}
+
+export const classes = StyleSheet.create({
   bottomContainer: {
     flexGrow: 1,
     display: "flex",
@@ -34,6 +98,7 @@ export const styles = StyleSheet.create({
   topView: {
     height: "60%",
     backgroundColor: "#F2F2F2",
+    
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
     width: "100%",
