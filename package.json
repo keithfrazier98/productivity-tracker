@@ -1,8 +1,13 @@
 {
   "main": "src/App.tsx",
   "dependencies": {
+    "@expo-google-fonts/lato": "^0.2.2",
+    "@expo/vector-icons": "^13.0.0",
+    "@expo/webpack-config": "^0.17.2",
     "@reduxjs/toolkit": "^1.9.1",
     "expo": "^47.0.0",
+    "expo-font": "~11.0.1",
+    "expo-splash-screen": "~0.17.5",
     "graphql-request": "^5.1.0",
     "nativewind": "^2.0.11",
     "react": "18.1.0",
