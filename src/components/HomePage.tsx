@@ -9,7 +9,7 @@ import {
 import FullButton from "./FullButton";
 import SquareButton from "./SquareButton";
 import { GoalTypes } from "../types";
-
+import { useTheme } from "react-native-paper";
 export default function HomePage({ navigation }) {
   let [fontsLoaded] = useFonts({
     Lato_300Light,
@@ -36,7 +36,12 @@ export default function HomePage({ navigation }) {
         <View style={classes.welcomeTextContainer}>
           <Text style={classes.welcomeText}>Welcome back</Text>
         </View>
-        <FullButton text={"Check in for the day"} onPress={() => {}} />
+        <FullButton
+          text={"Log today's points"}
+          onPress={() => {
+            navigation.navigate("Progress");
+          }}
+        />
         <FullButton
           text={"Check out your progress snapshot"}
           onPress={() => {}}
@@ -45,11 +50,11 @@ export default function HomePage({ navigation }) {
 
       <View style={classes.bottomContainer}>
         <View style={classes.bottomView}>
-        <NavToGoalPage goalType="Daily" />
-        <NavToGoalPage goalType="Monthly" />
+          <NavToGoalPage goalType="Daily" />
+          <NavToGoalPage goalType="Monthly" />
         </View>
         <View style={classes.bottomView}>
-        <NavToGoalPage goalType="Yearly" />
+          <NavToGoalPage goalType="Yearly" />
           <SquareButton text="Reflection" onPress={() => {}} />
         </View>
       </View>

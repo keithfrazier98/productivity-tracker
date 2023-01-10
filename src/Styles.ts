@@ -60,7 +60,7 @@ export function composeStyleSheet(styles: string) {
     }
   });
   const composedSheet = StyleSheet.create({ componentStyles: allStyles });
-  console.log(allStyles, composedSheet.componentStyles);
+  // console.log(allStyles, composedSheet.componentStyles);
   return composedSheet.componentStyles;
 }
 

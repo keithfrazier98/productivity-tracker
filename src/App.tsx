@@ -7,6 +7,8 @@ import { GoalTypes } from "./types";
 import EditGoalsPage from "./features/goals/EditGoalsPage";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store";
+import ProgressPage from "./features/goals/ProgressPage";
+import { Provider as PaperProvider } from "react-native-paper";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -14,22 +16,30 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <ReduxProvider store={store}>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomePage} />
-          {goalTypes.map((goalType) => (
-            <Stack.Screen name={`${goalType} Goals`}>
-              {(props) => <GoalsPage {...props} goalType={goalType} />}
-            </Stack.Screen>
-          ))}
+      <PaperProvider>
+        <ReduxProvider store={store}>
+          <Stack.Navigator initialRouteName="Home">
+            {/**Home page */}
+            <Stack.Screen name="Home" component={HomePage} />
 
-          <Stack.Screen name="Edit Goals" component={EditGoalsPage} />
-        </Stack.Navigator>
-      </ReduxProvider>
+            {/**Different goal pages, daily, monthly, yearly */}
+            {goalTypes.map((goalType) => (
+              <Stack.Screen name={`${goalType} Goals`}>
+                {(props) => <GoalsPage {...props} goalType={goalType} />}
+              </Stack.Screen>
+            ))}
+
+            {/**Log daily points page */}
+            <Stack.Screen name="Progress" component={ProgressPage} />
+
+            {/**Edit goals page */}
+            <Stack.Screen name="Edit Goals" component={EditGoalsPage} />
+          </Stack.Navigator>
+        </ReduxProvider>
+      </PaperProvider>
     </NavigationContainer>
   );
 }
-
 
 // Register the component manually since it isn't at the root directory.
 registerRootComponent(App);
