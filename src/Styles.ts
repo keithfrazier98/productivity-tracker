@@ -54,13 +54,18 @@ export function composeStyleSheet(styles: string) {
           ...allStyles,
           [style]: value,
         };
+      } else {
+        allStyles = {
+          ...allStyles,
+          [subtsyles[0]]: subtsyles.slice(1).join("-"),
+        };
       }
     } else {
       allStyles = { ...allStyles, ...singles[styleString] };
     }
   });
   const composedSheet = StyleSheet.create({ componentStyles: allStyles });
-  // console.log(allStyles, composedSheet.componentStyles);
+  console.log(allStyles, composedSheet.componentStyles);
   return composedSheet.componentStyles;
 }
 
@@ -98,7 +103,7 @@ export const classes = StyleSheet.create({
   topView: {
     height: "60%",
     backgroundColor: "#F2F2F2",
-    
+
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
     width: "100%",

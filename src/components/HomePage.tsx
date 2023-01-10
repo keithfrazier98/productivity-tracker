@@ -55,7 +55,12 @@ export default function HomePage({ navigation }) {
         </View>
         <View style={classes.bottomView}>
           <NavToGoalPage goalType="Yearly" />
-          <SquareButton text="Reflection" onPress={() => {}} />
+          <SquareButton
+            text="Reflection"
+            onPress={() => {
+              navigation.navigate("Reflection");
+            }}
+          />
         </View>
       </View>
     </View>

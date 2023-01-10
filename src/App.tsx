@@ -9,6 +9,8 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store";
 import ProgressPage from "./features/goals/ProgressPage";
 import { Provider as PaperProvider } from "react-native-paper";
+import ReflectionPage from "./features/reflection/ReflectionPage";
+import NewEntryPage from "./features/reflection/NewEntryPage";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -34,6 +36,12 @@ export default function App() {
 
             {/**Edit goals page */}
             <Stack.Screen name="Edit Goals" component={EditGoalsPage} />
+
+            {/**Refleciton page */}
+            <Stack.Screen name="Reflection" component={ReflectionPage} />
+
+            {/**New reflection entry page */}
+            <Stack.Screen name="New Entry" component={NewEntryPage} />
           </Stack.Navigator>
         </ReduxProvider>
       </PaperProvider>
