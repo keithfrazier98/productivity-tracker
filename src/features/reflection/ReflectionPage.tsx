@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button, View } from "react-native";
 import { Text } from "react-native-paper";
 import FullButton from "../../components/FullButton";
@@ -5,6 +6,9 @@ import { styles } from "../../styles";
 export default function ReflectionPage({ navigation }) {
   const ipsum =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+  const [oldEntry, setOldEntry] = useState({ text: ipsum, date: Date.now() });
+  const [lastEntry, setLastEntry] = useState({ text: ipsum, date: Date.now() });
 
   return (
     <View style={styles("padding-12 h-100%")}>
@@ -15,7 +19,7 @@ export default function ReflectionPage({ navigation }) {
       <FullButton
         text={"Create new entry"}
         onPress={() => {
-          navigation.navigate("New Entry");
+          navigation.navigate("Today's Entry");
         }}
       />
 
@@ -33,9 +37,17 @@ export default function ReflectionPage({ navigation }) {
             Your last entry:
           </Text>
           <Text variant="bodyLarge" numberOfLines={4}>
-            {ipsum}
+            {lastEntry.text}
           </Text>
-          <FullButton onPress={() => {}} text={"Read More"} />
+          <FullButton
+            onPress={() => {
+              {
+                /**Set state for selected entry */
+              }
+              navigation.navigate("View Entry");
+            }}
+            text={"Read More"}
+          />
         </View>
 
         <View>
@@ -43,10 +55,24 @@ export default function ReflectionPage({ navigation }) {
             This time last year...
           </Text>
           <Text variant="bodyMedium" numberOfLines={4}>
-            {ipsum}
+            {oldEntry.text}
           </Text>
-          <FullButton onPress={() => {}} text={"Read More"} />
+          <FullButton
+            onPress={() => {
+              {
+                /**Set state for selected entry */
+              }
+              navigation.navigate("View Entry");
+            }}
+            text={"Read More"}
+          />
         </View>
+        <FullButton
+          text={"Browse All Entries"}
+          onPress={() => {
+            navigation.navigate("Browse Entries");
+          }}
+        />
       </View>
     </View>
   );

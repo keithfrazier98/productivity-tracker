@@ -2,15 +2,25 @@ import { registerRootComponent } from "expo";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomePage from "./components/HomePage";
-import GoalsPage from "./features/goals/GoalsPage";
 import { GoalTypes } from "./types";
-import EditGoalsPage from "./features/goals/EditGoalsPage";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./redux/store";
-import ProgressPage from "./features/goals/ProgressPage";
 import { Provider as PaperProvider } from "react-native-paper";
-import ReflectionPage from "./features/reflection/ReflectionPage";
-import NewEntryPage from "./features/reflection/NewEntryPage";
+
+import {
+  BrowseEntriesPage,
+  ReflectionPage,
+  TodaysEntry,
+  ViewEntry,
+} from "./features/reflection";
+
+import {
+  EditGoalsPage,
+  GoalsPage,
+  ProgressPage,
+  ProgressSnapshotPage,
+} from "./features/goals";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -34,6 +44,9 @@ export default function App() {
             {/**Log daily points page */}
             <Stack.Screen name="Progress" component={ProgressPage} />
 
+            {/**Progress snapshot page */}
+            <Stack.Screen name="Snapshot" component={ProgressSnapshotPage} />
+
             {/**Edit goals page */}
             <Stack.Screen name="Edit Goals" component={EditGoalsPage} />
 
@@ -41,7 +54,13 @@ export default function App() {
             <Stack.Screen name="Reflection" component={ReflectionPage} />
 
             {/**New reflection entry page */}
-            <Stack.Screen name="New Entry" component={NewEntryPage} />
+            <Stack.Screen name="Today's Entry" component={TodaysEntry} />
+
+            {/**View past entry page */}
+            <Stack.Screen name="View Entry" component={ViewEntry} />
+
+            {/**Browse entries page */}
+            <Stack.Screen name="Browse Entries" component={BrowseEntriesPage} />
           </Stack.Navigator>
         </ReduxProvider>
       </PaperProvider>

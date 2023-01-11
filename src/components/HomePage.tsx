@@ -44,7 +44,9 @@ export default function HomePage({ navigation }) {
         />
         <FullButton
           text={"Check out your progress snapshot"}
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate("Snapshot");
+          }}
         />
       </View>
 
