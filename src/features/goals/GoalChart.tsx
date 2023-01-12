@@ -18,7 +18,7 @@ export default function GoalChart({
           },
         ],
       }}
-      width={Dimensions.get("window").width} // from react-native
+      width={Dimensions.get("window").width -24} // from react-native
       height={220}
       yAxisLabel="$"
       yAxisSuffix="k"

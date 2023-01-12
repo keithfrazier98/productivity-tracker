@@ -35,8 +35,8 @@ export default function App() {
             <Stack.Screen name="Home" component={HomePage} />
 
             {/**Different goal pages, daily, monthly, yearly */}
-            {goalTypes.map((goalType) => (
-              <Stack.Screen name={`${goalType} Goals`}>
+            {goalTypes.map((goalType, i) => (
+              <Stack.Screen key={`goal-type-${i}`} name={`${goalType} Goals`}>
                 {(props) => <GoalsPage {...props} goalType={goalType} />}
               </Stack.Screen>
             ))}
