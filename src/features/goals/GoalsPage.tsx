@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { styles } from "../../styles";
 import { GoalTypes } from "../../types";
 import GoalChart from "./GoalChart";
-import { editingGoals } from "./goalsSlice";
+import { goalsToEdit } from "./goalsSlice";
 
 export default function GoalsPage({
   goalType,
@@ -57,7 +57,7 @@ export default function GoalsPage({
         <FullButton
           text={"Edit Daily Goals"}
           onPress={() => {
-            dispatch(editingGoals({ goals: goalType }));
+            dispatch(goalsToEdit({ goals: goalType }));
             navigation.navigate("Edit Goals");
           }}
         />

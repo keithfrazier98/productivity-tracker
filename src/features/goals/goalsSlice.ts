@@ -2,22 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { GoalsState, GoalTypes } from "../../types";
 
 const initialState: GoalsState = {
-  editingGoals: null,
+  goalsToEdit: null,
 };
 
 const goalsSlice = createSlice({
   name: "goals",
   initialState,
   reducers: {
-    editingGoals(state, action: { payload: { goals: GoalTypes | null } }) {
+    goalsToEdit(state, action: { payload: { goals: GoalTypes | null } }) {
       const {
         payload: { goals },
       } = action;
 
-      state.editingGoals = goals;
+      state.goalsToEdit = goals;
     },
   },
 });
 
-export const { editingGoals } = goalsSlice.actions;
+export const { goalsToEdit } = goalsSlice.actions;
 export default goalsSlice.reducer
