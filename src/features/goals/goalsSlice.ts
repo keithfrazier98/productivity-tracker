@@ -22,35 +22,49 @@ const goalsSlice = createSlice({
 
 const goalIdsToKeys = (goals: string[]) => goals.map((id) => `@goal_${id}`);
 
-const goalEnpoints = nativeApiSlice.injectEndpoints({
+const extendedGoalsApi = nativeApiSlice.injectEndpoints({
   endpoints: (builder) => ({
     /**Gets an array of active goals given a goal type. */
     getActiveGoals: builder.query({
       query: (goalType: GoalTypes) => {
         return [`${goalType}Goals`, "ActiveGoals"];
       },
+      providesTags: ["ACTIVE_GOALS"],
     }),
     getGoals: builder.query({
       query: (goals: string[]) => {
         goals = goalIdsToKeys(goals);
         return [goals, "Goal"];
       },
+      providesTags: ["GOALS"],
     }),
-    setActiveGoals: builder.query({
-      query: (activeGoals: string[]) => {
-        return [activeGoals, "ActiveGoals"];
+    setActiveGoals: builder.mutation({
+      query: ({
+        activeGoals,
+        type,
+      }: {
+        activeGoals: string[];
+        type: GoalTypes;
+      }) => {
+        return [type, "ActiveGoals", activeGoals];
       },
+      invalidatesTags: ["GOALS", "ACTIVE_GOALS"],
     }),
-    setGoals: builder.query({
+    setGoals: builder.mutation({
       query: (goals: { [goalId: string]: Goal }) => {
         const goalKeys = goalIdsToKeys(Object.keys(goals));
         return [goalKeys, "Goal", Object.values(goals)];
       },
+      invalidatesTags: ["GOALS", "ACTIVE_GOALS"],
     }),
   }),
 });
 
 export const { goalsToEdit } = goalsSlice.actions;
-export const { getActiveGoals, setActiveGoals, setGoals, getGoals } =
-  goalEnpoints.endpoints;
+export const {
+  useGetActiveGoalsQuery,
+  useSetActiveGoalsMutation,
+  useSetGoalsMutation,
+  useGetGoalsQuery,
+} = extendedGoalsApi;
 export default goalsSlice.reducer;

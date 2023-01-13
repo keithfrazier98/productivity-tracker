@@ -11,7 +11,7 @@ import {
   NativeQueryTypes,
   progressPattern,
 } from "../types";
-import { getCheckMatch } from "../utils";
+import { getRegexTester } from "../utils";
 
 const {
   getItem: getNativeItem,
@@ -45,7 +45,7 @@ const nativeBaseQuery =
     NativeQueryTypes,
     (string | string[] | Goal[])?
   ]) => {
-    const checkMatch = getCheckMatch(nativeAccessKey);
+    const checkMatch = getRegexTester(nativeAccessKey);
     const keyIsArray = isArray(nativeAccessKey);
     const valueIsArray = isArray(value);
 
@@ -78,18 +78,18 @@ const nativeBaseQuery =
         break;
       case "EntryMetadata":
         checkMatch(entryMetaPattern);
-        itemSet = setArrayItem();
+        itemSet = await setArrayItem();
         break;
       case "Goal":
         checkMatch(goalPattern);
-        itemSet = setArrayItems();
+        itemSet = await setArrayItems();
         break;
       case "Progress":
         checkMatch(progressPattern);
         break;
       case "ActiveGoals":
         checkMatch(activeGoalPattern);
-        itemSet = setArrayItem();
+        itemSet = await setArrayItem();
         break;
       default:
         throw new Error("Invalid queryType");

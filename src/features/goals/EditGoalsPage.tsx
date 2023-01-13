@@ -3,36 +3,36 @@ import { ScrollView, Text, View } from "react-native";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { styles } from "../../styles";
-import { goalsToEdit } from "./goalsSlice";
+import { genNewGoal, idgen } from "../../utils";
+import {
+  goalsToEdit,
+  useGetActiveGoalsQuery,
+  useGetGoalsQuery,
+  useSetGoalsMutation,
+} from "./goalsSlice";
 
 export default function EditGoalsPage() {
   const currentGoals = useAppSelector((state) => state.goals.goalsToEdit);
   const dispatch = useAppDispatch();
-
+  const [updateGoal] = useSetGoalsMutation();
   useEffect(() => {
     return () => {
       dispatch(goalsToEdit({ goals: null }));
     };
   }, []);
 
-  const goals = [
-    { title: "Get up before 7:30", checked: false, value: 10 },
-    { title: "Eat 3 Healthy meals", checked: true, value: 10 },
-    { title: "Read the news", checked: false, value: 10 },
-    { title: "4 personal goals", checked: false, value: 10 },
-    { title: "Stick to schedule", checked: false, value: 10 },
-    { title: "25 pushups + situps", checked: false, value: 10 },
-  ];
+  const { data: activeGoals } = useGetActiveGoalsQuery(currentGoals);
+  const { data: goals } = useGetGoalsQuery(activeGoals);
 
   function onChange(value: string, key: string, index: number) {
-    goals.splice(index, 1, { ...goals[index], [key]: value });
+    // goals.splice(index, 1, { ...goals[index], [key]: value });
   }
 
   return (
     <ScrollView style={styles("padding-12")}>
       <Text style={styles("fontSize-32")}>Edit your {currentGoals} goals</Text>
       <View style={styles("marginVertical-12")}>
-        {goals.map((goal, index) => (
+        {goals?.map((goal, index) => (
           <View
             style={styles(
               "display-flex flexDirection-row justifyContent-space-between"
@@ -64,7 +64,8 @@ export default function EditGoalsPage() {
 
       <Button
         onPress={() => {
-          goals.push({ title: "", value: 0, checked: false });
+          const id = idgen();
+          const newGoal = updateGoal({ [id]: genNewGoal(id, currentGoals) });
         }}
       >
         + Add Goal

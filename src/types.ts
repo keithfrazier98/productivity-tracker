@@ -1,4 +1,9 @@
-export type NativeQueryTypes = "Goal" | "Entry" | "EntryMetadata" | "Progress" | "ActiveGoals";
+export type NativeQueryTypes =
+  | "Goal"
+  | "Entry"
+  | "EntryMetadata"
+  | "Progress"
+  | "ActiveGoals";
 export type GoalTypes = "Monthly" | "Daily" | "Yearly";
 export interface GoalsState {
   /**The goals currently selected to be edited. */
@@ -12,10 +17,10 @@ export interface Goal {
   type: GoalTypes;
   id: string;
   title: string;
-  PointValue: number;
+  pointValue: number;
   isActive: boolean;
   created: number;
-  inactivated: number;
+  inactivated?: number;
 }
 
 /**A collection of goals to represent which were completed on a specific day.
@@ -41,7 +46,6 @@ export interface EntryMetadata {
   created: string;
   snipped: string;
 }
-
 
 /**
  * Regex for progress data, matches keys for day, month, or year progress queries.

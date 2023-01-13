@@ -1,3 +1,5 @@
+import { Goal, GoalTypes } from "./types";
+
 /**
  * Generates a fixed length random ID without an external dep:
  * https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript */
@@ -7,7 +9,7 @@ export const idgen = () =>
     36
   );
 
-export const getCheckMatch = (key: string | string[]) => {
+export const getRegexTester = (key: string | string[]) => {
   return (regex: RegExp) => {
     const checkKey = (key: string) => {
       if (!regex.test(key)) throw new Error("Invalid nativeAccessKey");
@@ -20,3 +22,16 @@ export const getCheckMatch = (key: string | string[]) => {
     }
   };
 };
+
+export const genNewGoal = (id: string, type: GoalTypes): Goal => {
+  return {
+    id,
+    type,
+    created: Date.now(),
+    isActive: true,
+    pointValue: 0,
+    title: "New Goal",
+  };
+};
+
+
