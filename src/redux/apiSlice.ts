@@ -106,7 +106,6 @@ const nativeBaseQuery =
     }
   };
 
-const goalIdToKeys = (goals: string[]) => goals.map((id) => `@goal_${id}`);
 
 export const nativeApiSlice = createApi({
   reducerPath: "api",
@@ -114,29 +113,7 @@ export const nativeApiSlice = createApi({
   baseQuery: nativeBaseQuery(),
   tagTypes: ["GOALS", "ENTRIES", "PROGRESS", "ENTRY_METADATA", "ACTIVE_GOALS"],
   endpoints: (builder) => ({
-    /**Gets an array of active goals given a goal type. */
-    getActiveGoals: builder.query({
-      query: (goalType: GoalTypes) => {
-        return [`${goalType}Goals`, "ActiveGoals"];
-      },
-    }),
-    getGoals: builder.query({
-      query: (goals: string[]) => {
-        goals = goalIdToKeys(goals);
-        return [goals, "Goal"];
-      },
-    }),
-    setActiveGoals: builder.query({
-      query: (activeGoals: string[]) => {
-        return [activeGoals, "ActiveGoals"];
-      },
-    }),
-    setGoals: builder.query({
-      query: (goals: { [goalId: string]: Goal }) => {
-        const goalKeys = goalIdToKeys(Object.keys(goals));
-        return [goalKeys, "Goal", Object.values(goals)];
-      },
-    }),
+    
     // declare endpoints in API slice to conform TS requirement
     // injectEndpoints in seperate feature slices (see feature endpoint files)
   }),
