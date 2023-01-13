@@ -1,7 +1,17 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { request, gql, ClientError } from "graphql-request";
-import { Goal, GoalTypes, NativeQueryTypes } from "../types";
+import { request, ClientError } from "graphql-request";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  activeGoalPattern,
+  entryMetaPattern,
+  entryPattern,
+  Goal,
+  goalPattern,
+  GoalTypes,
+  NativeQueryTypes,
+  progressPattern,
+} from "../types";
+import { getCheckMatch } from "../utils";
 
 const {
   getItem: getNativeItem,
@@ -28,48 +38,6 @@ const graphqlBaseQuery =
     }
   };
 
-/**
- * Generates a fixed length random ID without an external dep:
- * https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript */
-const idgen = () =>
-  Date.now().toString(36) +
-  Math.floor(Math.pow(10, 12) + Math.random() * 9 * Math.pow(10, 12)).toString(
-    36
-  );
-
-/**
- * Regex for progress data, matches keys for day, month, or year progress queries.
- */
-const progressPattern =
-  /@points_(?:[0-1][1-9]\/)?(:?[0-3][1-9]\/)?[2-9][0-9][2-9][3-9]/;
-
-/**Matches any string that starts with "@goal_" and ends with a 17 character string of
- * letters and numbers.
- */
-const goalPattern = /@goal_[a-z0-9]{17}/;
-
-/** Matches any string that starts with "@entry_" and ends with a number of infinate length.*/
-const entryPattern = /@entry_\d+/;
-
-/** Matches strings that start with "@entryMetadata_" and ends with a number of infinate length. */
-const entryMetaPattern = /@entryMetadata_\d+/;
-
-/** Matches strings that start with a GoalType and ends in "Goals" */
-const activeGoalPattern = /@(Daily|Monthly|Yearly)Goals/;
-
-const getCheckMatch = (key: string | string[]) => {
-  return (regex: RegExp) => {
-    const checkKey = (key: string) => {
-      if (!regex.test(key)) throw new Error("Invalid nativeAccessKey");
-    };
-
-    if (isArray(key)) {
-      key.forEach((item) => checkKey(item));
-    } else {
-      checkKey(key);
-    }
-  };
-};
 const nativeBaseQuery =
   () =>
   async ([nativeAccessKey, queryType, value]: [
@@ -103,28 +71,31 @@ const nativeBaseQuery =
       }
     };
 
+    let itemSet;
     switch (queryType) {
       case "Entry":
         checkMatch(entryPattern);
         break;
       case "EntryMetadata":
         checkMatch(entryMetaPattern);
-        setArrayItem();
+        itemSet = setArrayItem();
         break;
       case "Goal":
         checkMatch(goalPattern);
-        setArrayItems()
+        itemSet = setArrayItems();
         break;
       case "Progress":
         checkMatch(progressPattern);
         break;
       case "ActiveGoals":
         checkMatch(activeGoalPattern);
-        setArrayItem();
+        itemSet = setArrayItem();
         break;
       default:
         throw new Error("Invalid queryType");
     }
+
+    if (itemSet) return itemSet;
 
     if (keyIsArray) {
       return { data: await getNativeItems(nativeAccessKey) };

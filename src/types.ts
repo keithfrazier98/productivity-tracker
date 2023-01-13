@@ -43,3 +43,22 @@ export interface EntryMetadata {
 }
 
 
+/**
+ * Regex for progress data, matches keys for day, month, or year progress queries.
+ */
+export const progressPattern =
+  /@points_(?:[0-1][1-9]\/)?(:?[0-3][1-9]\/)?[2-9][0-9][2-9][3-9]/;
+
+/**Matches any string that starts with "@goal_" and ends with a 17 character string of
+ * letters and numbers.
+ */
+export const goalPattern = /@goal_[a-z0-9]{17}/;
+
+/** Matches any string that starts with "@entry_" and ends with a number of infinate length.*/
+export const entryPattern = /@entry_\d+/;
+
+/** Matches strings that start with "@entryMetadata_" and ends with a number of infinate length. */
+export const entryMetaPattern = /@entryMetadata_\d+/;
+
+/** Matches strings that start with a GoalType and ends in "Goals" */
+export const activeGoalPattern = /@(Daily|Monthly|Yearly)Goals/;
