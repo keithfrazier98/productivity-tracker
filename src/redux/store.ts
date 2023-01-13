@@ -1,14 +1,14 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import goalsSlice from "../features/goals/goalsSlice";
-import { apiSlice } from "./apiSlice";
+import { nativeApiSlice } from "./apiSlice";
 
 export const store = configureStore({
   reducer: {
     goals: goalsSlice,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    [nativeApiSlice.reducerPath]: nativeApiSlice.reducer,
   },
   middleware: (getDefaultMiddleWare) =>
-    getDefaultMiddleWare().concat(apiSlice.middleware),
+    getDefaultMiddleWare().concat(nativeApiSlice.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

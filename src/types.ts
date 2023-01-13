@@ -1,3 +1,4 @@
+export type NativeQueryTypes = "Goal" | "Entry" | "EntryMetadata" | "Progress" | "ActiveGoals";
 export type GoalTypes = "Monthly" | "Daily" | "Yearly";
 export interface GoalsState {
   /**The goals currently selected to be edited. */
@@ -32,11 +33,13 @@ export interface GoalProgress {
 
 /**
  * Describes entry metadata as a single unit. The actual entry metadata
- * is stored in arrays of 50, and accessed by the key convention 
- * of @EntryMetadata_[0 - infinity]. 
+ * is stored in arrays of 50, and accessed by the key convention
+ * of @EntryMetadata_[0 - infinity].
  */
 export interface EntryMetadata {
   accessId: string;
   created: string;
   snipped: string;
 }
+
+
